@@ -311,6 +311,9 @@ def get_orca_excited_states(lines):
 
 
 def calc_kISC(singlets, triplets, couplings, gamma):
+    """I'm not sure, if it is true to take the triplets in the same geometry as the singlets,
+       or if one should have to take the triplet energies from their resp. optimized geometries.
+       As the latter is the way for phosphorescence, I think it is fine this way."""
     # Top to Bottom: Singlets
     # Left to Right: Triplets
     # k_ISC calculated according to (53) and (55) from DOI: 10.1021/acs.jpca.1c06165

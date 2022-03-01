@@ -161,7 +161,7 @@ if args.raytrace:
             "\nbackground solid none"
             "\nsetattr M stickScale 0.6 #; unset depthCue"
             "\ncopy file {{ output }} supersample {{ supsam }} "
-            "dpi {{ dpi }} width {{ width }} height {{ height }} units {{ units }}"
+            "dpi {{ dpi }} width {{ width }} units {{ units }}"
             'raytrace rtwait'
             "\nclose #1"
         )
@@ -176,7 +176,7 @@ else:
               "\nbackground solid none"
               "\nsetattr M stickScale 0.6 #; unset depthCue"
               "\ncopy file {{ output }} supersample {{ supsam }} "
-              "dpi {{ dpi }} width {{ width }} height {{ height }} units {{units}}"
+              "dpi {{ dpi }} width {{ width }} units {{units}}"
               "\nclose #1"
           )
       )
@@ -191,7 +191,7 @@ if args.stephan:
             "\nbackground solid none"
             "\nsetattr M stickScale 0.6 #; unset depthCue; unset shadows"
             "\ncopy file {{ output }} supersample {{ supsam }} "
-            "dpi {{ dpi }} width {{ width }} height {{ height }} units {{ units }}"
+            "dpi {{ dpi }} width {{ width }} units {{ units }}"
             "\nclose #1"
         )
     )

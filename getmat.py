@@ -311,9 +311,9 @@ def get_orca_excited_states(lines):
 
 
 def calc_kISC(singlets, triplets, couplings, gamma):
-    """I'm not sure, if it is true to take the triplets in the same geometry as the singlets,
-       or if one should have to take the triplet energies from their resp. optimized geometries.
-       As the latter is the way for phosphorescence, I think it is fine this way."""
+    """Doing it this way is wrong, as the energy difference needs to be the difference between the
+    optimzed minima of both states for which the constant should be calculated.
+    I'll let it here, as it might be some sort of guess, nonetheless."""
     # Top to Bottom: Singlets
     # Left to Right: Triplets
     # k_ISC calculated according to (53) and (55) from DOI: 10.1021/acs.jpca.1c06165
@@ -327,6 +327,7 @@ def calc_kISC(singlets, triplets, couplings, gamma):
     print(f"{h:e} s cm^-1")
     hbar = h / (2 * np.pi)
     for k in range(len(singlets)):
+        print("WARNING: These numbers are only a crude guess!")
         print(f"Couplings of S({k:3d}) at {singlets[k,2]:8.1f} nm to:")
         for l in range(len(triplets)):
             Ekl = singlets[k,1] - triplets[l,1]
@@ -337,11 +338,6 @@ def calc_kISC(singlets, triplets, couplings, gamma):
 
 def main():
     args = get_input(sys.argv[1:])
-
-    if args.no_print and args.no_save:
-        sys.exit(
-            "no save and no print => no matrix … why did you start the program? :D"
-        )
 
     file_data = get_lines(args.orca_file)
 

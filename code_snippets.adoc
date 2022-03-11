@@ -1,2 +1,19 @@
 = Code Snippets
 
+Some minor code snippets that I find useful and might be helpful for others too.
+
+== ORCA
+
+.Gnuplot 5.2 input line to plot the first ten excited states from an ORCA 5.0.3 TDDFT-Scan for a multi XYZ file
+[source]
+--
+plot for [i=0:9]<1> "< grep 'STATE.*:' lshift_opt.out"<2> every 10::i<3> using 4<4> with lp<5> title sprintf("S_{%i}", i+1)<6>
+--
+<1> variable loops over all ten states
+<2> read all "STATE ... :" lines
+<3> get every tenth line, starting at line i
+<4> use column 4 (the energy in a.u.)
+<5> show lines with points
+<6> add 1 to the variable and plot the result as, e.g., S~0~
+
+image::images/gnuplot_of_scan.png[]

@@ -8,7 +8,7 @@ Some minor code snippets that I find useful and might be helpful for others too.
 [source]
 --
 nStates=10
-gnuplot> plot for [i=0:nStates-1] "< grep 'STATE.*:' s2.out" every nStates::i using 6 with lp title sprintf("S_{%i}", i+1)
+gnuplot> plot for [i=0:nStates-1] "< grep 'STATE.*:' s2.out" every nStates::i using 4 with lp title sprintf("S_{%i}", i+1)
 --
 
 image::images/gnuplot_of_scan.png[]

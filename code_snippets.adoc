@@ -12,3 +12,13 @@ gnuplot> plot for [i=0:nStates-1] "< grep 'STATE.*:' s2.out" every nStates::i us
 --
 
 image::images/gnuplot_of_scan.png[]
+
+== VIM
+
+.Finding all references from a text document written as [1], [1-2], [1,2-3], [1-2,3] and so on and copies them into t
+[source]
+--
+:let t=[] | %s/\[\(\d\+\(-\d\+\)\?,\?\)\+\]/\=add(t,submatch(1))[1:0]/g
+--
+
+When the document has been searched, the contents of `t` can be printed with `:pu=t`

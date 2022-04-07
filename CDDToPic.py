@@ -26,6 +26,9 @@ def getinput(args):
         "--filetype", "-f", default="jpeg", help="default jpeg, png possible"
     )
     parser.add_argument(
+        "--background", "-bg", default="none", help="set the background color (default: none)"
+    )
+    parser.add_argument(
         "--sizefactor",
         "-sf",
         default=2.0,
@@ -126,6 +129,8 @@ MOimagewidth = args.mo_image_width # cm
 units = args.image_units
 # image type ... could also be png
 FileType = str(args.filetype)
+# background color
+backgroundcolor = str(args.background)
 # the isovalue for the MOs
 orbLevel = "0.04"
 # the isovalue for densities
@@ -158,7 +163,7 @@ if args.raytrace:
             "\npreset apply pub {{ preset }}; color byelement"
             "\nvolume #1 level -{{ level }} color {{ minus }}"
             " level {{ level }} color {{ plus }} step {{ cubres }}"
-            "\nbackground solid none"
+            "\nbackground solid {{ bgcolor }}"
             "\nsetattr M stickScale 0.6 #; unset depthCue"
             "\ncopy file {{ output }} supersample {{ supsam }} "
             "dpi {{ dpi }} width {{ width }} units {{ units }}"
@@ -173,7 +178,7 @@ else:
               "\npreset apply pub {{ preset }}; color byelement"
               "\nvolume #1 level -{{ level }} color {{ minus }}"
               " level {{ level }} color {{ plus }} step {{ cubres }}"
-              "\nbackground solid none"
+              "\nbackground solid {{ bgcolor }}"
               "\nsetattr M stickScale 0.6 #; unset depthCue"
               "\ncopy file {{ output }} supersample {{ supsam }} "
               "dpi {{ dpi }} width {{ width }} units {{units}}"
@@ -188,7 +193,7 @@ if args.stephan:
             "\npreset apply pub {{ preset }}; color byelement"
             "\nvolume #1 level -{{ level }} color {{ minus }}"
             " level {{ level }} color {{ plus }} step {{ cubres }}"
-            "\nbackground solid none"
+            "\nbackground solid {{ bgcolor }}"
             "\nsetattr M stickScale 0.6 #; unset depthCue; unset shadows"
             "\ncopy file {{ output }} supersample {{ supsam }} "
             "dpi {{ dpi }} width {{ width }} units {{ units }}"
@@ -199,7 +204,7 @@ if args.stephan:
 # open the session, apply the color preset, set dpi etc for the geometry image and save it
 mytext = "open " + session
 mytext += "\npreset apply pub " + ColorPreset + "; color byelement"
-mytext += "\nbackground solid none; setattr M stickScale 0.6 #"
+mytext += "\nbackground solid " + backgroundcolor + "; setattr M stickScale 0.6 #"
 if args.stephan:
     mytext += "\nunset depthCue; unset shadows"
 mytext += "\ncopy file geometry." + FileType + " supersample " + SuperSample
@@ -216,6 +221,7 @@ for cdd in cdds:
         output=cdd.replace("cub", FileType),
         supsam=SuperSample,
         dpi=DPI,
+        bgcolor=backgroundcolor,
         width=str(CDDimagewidth),
         units=units,
         minus=",".join(cddRGB[0]),
@@ -231,6 +237,7 @@ for cdd in orca_cdds:
         output=cdd.replace("cube", FileType),
         supsam=SuperSample,
         dpi=DPI,
+        bgcolor=backgroundcolor,
         width=str(CDDimagewidth),
         units=units,
         minus=",".join(cddRGB[0]),
@@ -246,6 +253,7 @@ for ele in eles:
         output=ele.replace("cub", FileType),
         supsam=SuperSample,
         dpi=DPI,
+        bgcolor=backgroundcolor,
         width=str(CDDimagewidt),
         units=units,
         minus=",".join(cddRGB[0]),
@@ -261,6 +269,7 @@ for hol in hols:
         output=hol.replace("cub", FileType),
         supsam=SuperSample,
         dpi=DPI,
+        bgcolor=backgroundcolor,
         width=str(CDDimagewidth),
         units=units,
         minus=",".join(cddRGB[1]),
@@ -276,6 +285,7 @@ for orb in orbs:
         output=orb.replace("cub", FileType),
         supsam=SuperSample,
         dpi=DPI,
+        bgcolor=backgroundcolor,
         width=str(MOimagewidth),
         units=units,
         minus=",".join(orbRGB[0]),
@@ -291,6 +301,7 @@ for sd in spindensity:
         output=sd.replace("cub", FileType),
         supsam=SuperSample,
         dpi=DPI,
+        bgcolor=backgroundcolor,
         width=str(int(sizeFactor * WWidth)),
         height=str(int(sizeFactor * WHeight)),
         minus=",".join(sdRGB[0]),
@@ -306,6 +317,7 @@ for td in transdens:
         output=td.replace("cub", FileType),
         supsam=SuperSample,
         dpi=DPI,
+        bgcolor=backgroundcolor,
         width=str(int(sizeFactor * WWidth)),
         height=str(int(sizeFactor * WHeight)),
         minus=",".join(cddRGB[0]),

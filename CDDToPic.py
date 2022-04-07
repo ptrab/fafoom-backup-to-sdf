@@ -4,6 +4,7 @@ import os
 import glob
 import re
 import argparse
+import platform
 from jinja2 import Template
 
 
@@ -331,5 +332,6 @@ with open("input.cmd", "w") as f:
     f.write(mytext)
 
 # execute the input
-os.system("chimera --bgopacity input.cmd")
-os.remove("input.cmd")
+if platform.system() == "Linux":
+    os.system("chimera --bgopacity input.cmd")
+    os.remove("input.cmd")

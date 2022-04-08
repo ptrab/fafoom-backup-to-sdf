@@ -25,6 +25,13 @@ When the document has been searched, the contents of `t` can be printed with `:p
 
 == Gaussian
 
+== Errors that tell nothing clear
+
 I encountered the error `Internal consistency failure #1 in ROv06.`
 This error means that there is a problem with the Overlay 6 from the IOps: https://gaussian.com/overlay6/
 By looking at what is handled by overlay 6, it is clear that the error has something to do with my population analysis keyword.
+
+== Reading the output
+
+When checking the frequency calculation for the first normal mode, search for `normal co`.
+When checking for excited states, search for "Excited State" and you will find the first.

@@ -30,6 +30,8 @@ When the document has been searched, the contents of `t` can be printed with `:p
 I encountered the error `Internal consistency failure #1 in ROv06.`
 This error means that there is a problem with the Overlay 6 from the IOps: https://gaussian.com/overlay6/
 By looking at what is handled by overlay 6, it is clear that the error has something to do with my population analysis keyword.
+In my case, it was the combination of nboread and npa together as `pop=(nobread,npa)` which does not work.
+`nboread` means that all keywords are redirected to the `$NBO $END` section beneath the coordinates, where `NPA` would be placed then.
 
 == Reading the output
 

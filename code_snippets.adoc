@@ -2,7 +2,7 @@
 
 Some minor code snippets that I find useful and might be helpful for others too.
 
-== ORCA
+== Gnuplot
 
 .Gnuplot 5.2 input line to plot the first ten excited states from an ORCA 5.0.3 TDDFT-Scan for a multi XYZ file
 [source]
@@ -22,3 +22,9 @@ image::images/gnuplot_of_scan.png[]
 --
 
 When the document has been searched, the contents of `t` can be printed with `:pu=t`
+
+== Gaussian
+
+I encountered the error `Internal consistency failure #1 in ROv06.`
+This error means that there is a problem with the Overlay 6 from the IOps: https://gaussian.com/overlay6/
+By looking at what is handled by overlay 6, it is clear that the error has something to do with my population analysis keyword.

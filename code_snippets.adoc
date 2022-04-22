@@ -54,7 +54,7 @@ grep 'Excited State\|->\|<-' vertical.log | sed 's/://g' |awk '{if ($1 != "Excit
 
 == What are all the L*.exe that Gaussian calls during its execution?
 
-Gaussian is often called a "suite of programs" because it is not a single executable file but consists of many executables, that work together. These executables are called "Links" and can be found on the Gaussina website. To not have to search them on their website, because I think they are a bit hidden, I list them here too.
+Gaussian is often called a "suite of programs" because it is not a single executable file but consists of many executables, that work together. These executables are called "Links" and can be found on the Gaussian website. To not have to search them on their website, because I think they are a bit hidden, I list them here too.
 
 [%collapsible]
 ====

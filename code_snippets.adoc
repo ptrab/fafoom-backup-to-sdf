@@ -56,6 +56,8 @@ grep 'Excited State\|->\|<-' vertical.log | sed 's/://g' |awk '{if ($1 != "Excit
 
 Gaussian is often called a "suite of programs" because it is not a single executable file but consists of many executables, that work together. These executables are called "Links" and can be found on the Gaussina website. To not have to search them on their website, because I think they are a bit hidden, I list them here too.
 
+[%collapsible]
+====
 [horizontal]
 0:: Initializes program and controls overlaying
 1:: Processes route section, builds list of links to execute, and initializes scratch files
@@ -138,3 +140,4 @@ Gaussian is often called a "suite of programs" because it is not a single execut
 1111:: 2 particle density matrix and post-SCF derivatives
 1112:: MP2 second derivatives
 9999:: Finalizes calculation and output
+====

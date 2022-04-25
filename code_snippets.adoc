@@ -23,6 +23,14 @@ image::images/gnuplot_of_scan.png[]
 
 When the document has been searched, the contents of `t` can be printed with `:pu=t`
 
+---
+
+.Replacing the multiplicity in Johannes' sing_exc or trip_exc using VIM to whatever mult you want - in this case 3 for triplet
+[source]
+--
+:%s/Excited State \([0-9]\+\) [0-9]\+ \(.*\)/Excited State \1 3 \2/g
+--
+
 == Gaussian
 
 == Errors that tell nothing clear

@@ -149,3 +149,7 @@ Gaussian is often called a "suite of programs" because it is not a single execut
 1112:: MP2 second derivatives
 9999:: Finalizes calculation and output
 ====
+
+== Regular Expressions
+
+I am using regular expressions a lot, when extracting or modifying existing data. As a regex can look very confusing, it helps to visualize it. It can be done easily using https://regexper.com where you just have to enter your regex and get a nice ouput on what it is doing.

@@ -158,11 +158,13 @@ It can be done easily using https://regexper.com where you just have to enter yo
 
 https://regexper.com/#%28%5Cd%2B%28-%5Cd%2B%29%3F%2C%3F%29%2B[Let's take the example] from searching for the reference indexes in VIM from above.
 There I searched for `(\d+(-\d+)?,?)+` which produces the following graph:
-image::easy_regex.png[]
+
+image::images/easy_regex.png[]
 
 Using the website https://regex101.com one can also test the expressions directly and one gets a nice literal description of what one is doing. For the example above, you can have a look here: https://regex101.com/r/BIgwCO/1 .
 
 Another, more complex example, would be the following expression `(^(\d+\.|[*])) ([-\w\s?]+,(\s?\w\.?-?)+)(((;|,) (and)?[-\w\s?]+,(\s?\w\.?-?)+)*) \((\d+)\)(\.|,)? (.*), (.*), (\w+((-|–)\d+)?), (\w+((-|–)\d+)?).`
-image::not_so_easy_regex.png[]
+
+image::images/not_so_easy_regex.png[]
 
 If I remember correctly, this regex is extracting the references as produced by, e.g., JACS.

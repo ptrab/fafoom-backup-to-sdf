@@ -168,3 +168,10 @@ Another, more complex example, would be the following expression `(^(\d+\.|[*]))
 image::images/not_so_easy_regex.png[]
 
 If I remember correctly, this regex is extracting the references as produced by, e.g., JACS.
+
+=== Finding Overfull and Underfull warnings
+
+[source]
+--
+(Overfull|Underfull)((.\r?\n?)?)+\[\]
+--

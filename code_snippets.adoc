@@ -33,7 +33,7 @@ When the document has been searched, the contents of `t` can be printed with `:p
 
 == Gaussian
 
-== Errors that tell nothing clear
+=== Errors that tell nothing clear
 
 I encountered the error `Internal consistency failure #1 in ROv06.`
 This error means that there is a problem with the Overlay 6 from the IOps: https://gaussian.com/overlay6/
@@ -41,7 +41,7 @@ By looking at what is handled by overlay 6, it is clear that the error has somet
 In my case, it was the combination of nboread and npa together as `pop=(nobread,npa)` which does not work.
 `nboread` means that all keywords are redirected to the `$NBO $END` section beneath the coordinates, where `NPA` would be placed then.
 
-== Reading the output
+=== Reading the output
 
 When checking the frequency calculation for the first normal mode, search for `normal co`.
 When checking for excited states, search for `Excited State` and you will find the first.
@@ -60,7 +60,7 @@ grep 'Excited State\|->\|<-' vertical.log | sed 's/://g' |awk '{if ($1 != "Excit
 grep 'Excited State\|->\|<-' vertical.log | sed 's/://g' |awk '{if ($1 != "Excited" && 2*$4*$4 >= 0.08 && ($1 == 205 || $1 == 206 || $1 == 207) && ($3 == 210 || $3 == 211 || $3 == 213 || $3 == 214 || $3 == 215)) print $1, $2, $3, "   ", 200*$4*$4; else if ($1 == "Excited") print $0}'
 --
 
-== What are all the L*.exe that Gaussian calls during its execution?
+=== What are all the L*.exe that Gaussian calls during its execution?
 
 Gaussian is often called a "suite of programs" because it is not a single executable file but consists of many executables, that work together. These executables are called "Links" and can be found on the Gaussian website. To not have to search them on their website, because I think they are a bit hidden, I list them here too.
 
@@ -174,4 +174,12 @@ If I remember correctly, this regex is extracting the references as produced by,
 [source]
 --
 (Overfull|Underfull)((.\r?\n?)?)+\[\]
+--
+
+== Miscelaneous
+
+.Finding all different bibtex entry types of a bib file using grep et al.
+[source]
+--
+grep "^@" bibliography2022.bib | tr '{' ' ' | sort | awk '{print $1}' | uniq
 --

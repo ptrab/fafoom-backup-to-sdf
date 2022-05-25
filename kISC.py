@@ -83,7 +83,9 @@ def kISC(singlets, triplets, socs, gamma):
     # from 10.1021/acs.jpca.1c06165
     kisc = 2 / hbar * socs**2 * gamma / (ekl**2 + gamma**2)
 
-    print(kisc)
+    with np.printoptions(precision=2):
+        print("\nSOCs Rows=Singlets Columns=Triplets")
+        print(kisc)
 
 
 def get_ekl_matrix(singlets, triplets):
@@ -95,11 +97,18 @@ def get_ekl_matrix(singlets, triplets):
 
 def get_soc_matrix(ekl, socs):
     socs = np.array(socs)
-    return socs.reshape(ekl.shape)
+    matrix = socs.reshape(ekl.shape)
+
+    print(matrix)
+
+    return matrix
 
 
 def main():
     args = getinput(sys.argv[1:])
+
+    print(args.singlet_energies)
+    print(args.triplet_energies)
 
     kISC(
         args.singlet_energies,

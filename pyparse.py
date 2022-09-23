@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """ parse the tddft stuff of gaussian """
 
 import sys
@@ -52,21 +52,25 @@ def getinput(args):
     #    action="store_true",
     #    help="takes multiplicity to set <S**2>-threshold",
     # )
+    parser.add_argument(
+        "--parser",
+        "-p",
+        default="pyparse",
+        help="Specify which parser you want, to parse the files. None, pyparse",
+    )
 
     return parser.parse_args(args)
 
-
 def remove_last_line_from_string(string):
-    """ removes the last line of a string """
+    """ removes the last line of a string"""
     # https://stackoverflow.com/a/18683105/6155796
     result = string[: string.rfind("\n")]
     return result
 
 
-def is_closed_shell(raw):
+def is_closed_shell(raw, args):
     """ is closed shell? """
-    use_pyparse = False
-    if use_pyparse:
+    if args.parser == "pyparse":
         # I want to find out the Multiplicity of the system
         # which is shown in the output like that:
         # Charge =  0 Multiplicity = 2
@@ -82,13 +86,14 @@ def is_closed_shell(raw):
         # searching for the string
         result = find.searchString(raw)[0][0]
         # setting the proper scaling factor for CI coefficients
-    else:
+    elif args.parser == "None":
         lines = raw.splitlines()
         for item in lines:
             if "Multiplicity" in item:
                 splitted_line = item.split()
                 result = int(splitted_line[-1])
                 break
+
     if result > 1:
         # false
         scale = 1.0
@@ -100,11 +105,10 @@ def is_closed_shell(raw):
     return scale, result
 
 
-def num_basis_functions(raw):
+def num_basis_functions(raw, args):
     """ get the number of basis functions """
     # 952 basis functions,  1755 primitive gaussians,  1014 cartesian basis functions
-    use_pyparse = False
-    if use_pyparse:
+    if args.parser == "pyparse":
         num = Word(nums).setParseAction(tokenMap(int))
         basis_functions = Literal("basis functions,")
         primitive_gaussians = Literal("primitive gaussians,")
@@ -113,7 +117,7 @@ def num_basis_functions(raw):
             basis_functions + num + primitive_gaussians + num + cartesian_basis
         )
         result = find.searchString(raw)[0][0]
-    else:
+    elif args.parser == "None":
         lines = raw.splitlines()
         for item in lines:
             if "basis functions" in item and not "There are" in item:
@@ -137,7 +141,7 @@ def spin_contamination(spin, s_squared):
     return result
 
 
-def parse_text(raw):
+def parse_text(raw, args):
     """ parse the text """
     # closed shell:
     #  Excited State   1:      Singlet-B1    14.8877 eV   83.28 nm  f=0.0037  <S**2>=0.000
@@ -175,6 +179,8 @@ def parse_text(raw):
     try:
         # [['3', '18.1202', '68.42', '0.0672', '0.000'], [['3', '->', '7', '0.12606'], ['4', '->', '6', '0.69577']]]
         result = mylines.searchString(raw)
+        # for excited_state in result:
+        #     print(excited_state)
         # print(result)
         # for item in result:
         #    state, excitations = item
@@ -286,42 +292,42 @@ def to_docx(content, scale, inputargs, basisfunctions):
         try:
             paragraph = row_cells[8].paragraphs[0]
             run = paragraph.add_run()
-            run.add_picture("hole" + state.nr + "_thumb.jpg", width=Cm(3.0))
+            run.add_picture(f"hole{int(state.nr):06}_thumb.jpg", width=Cm(3.0))
         except:
             pass
 
         try:
             paragraph = row_cells[8].paragraphs[0]
             run = paragraph.add_run()
-            run.add_picture("hole" + state.nr + "_thumb.jpeg", width=Cm(3.0))
+            run.add_picture(f"hole{int(state.nr):06}_thumb.jpeg", width=Cm(3.0))
         except:
             pass
 
         try:
             paragraph = row_cells[8].paragraphs[0]
             run = paragraph.add_run()
-            run.add_picture("hole" + state.nr + "_thumb.png", width=Cm(3.0))
+            run.add_picture(f"hole{int(state.nr):06}_thumb.png", width=Cm(3.0))
         except:
             pass
 
         try:
             paragraph = row_cells[9].paragraphs[0]
             run = paragraph.add_run()
-            run.add_picture("electron" + state.nr + "_thumb.jpg", width=Cm(3.0))
+            run.add_picture(f"electron{int(state.nr):06}_thumb.jpg", width=Cm(3.0))
         except:
             pass
 
         try:
             paragraph = row_cells[9].paragraphs[0]
             run = paragraph.add_run()
-            run.add_picture("electron" + state.nr + "_thumb.jpeg", width=Cm(3.0))
+            run.add_picture(f"electron{int(state.nr):06}_thumb.jpeg", width=Cm(3.0))
         except:
             pass
 
         try:
             paragraph = row_cells[9].paragraphs[0]
             run = paragraph.add_run()
-            run.add_picture("electron" + state.nr + "_thumb.png", width=Cm(3.0))
+            run.add_picture(f"electron{int(state.nr):06}_thumb.png", width=Cm(3.0))
         except:
             pass
 
@@ -478,19 +484,21 @@ if __name__ == "__main__":
     # FILE_CONTENT = (
     #   open(ARGS.outputfile, "r").read().replace("->", "-> ").replace("<-", "<- ")
     # )
-    MY_FILE = open(ARGS.outputfile, "r").readlines()
-    FILE_CONTENT = []
-    for line in MY_FILE:
-        if (
-            "basis functions"
-            or "Multiplicity"
-            or "Excited State"
-            or "->"
-            or "<-" in line
-        ):
-            FILE_CONTENT.append(line.replace("->", "-> ").replace("<-", "<- "))
-    FILE_CONTENT = "".join(FILE_CONTENT)
-    SCALE_FACTOR, MULTIPLICITY = is_closed_shell(FILE_CONTENT)
+    # MY_FILE = open(ARGS.outputfile, "r").readlines()
+    MY_FILE = open(ARGS.outputfile, "r").read()
+    # FILE_CONTENT = []
+    # for line in MY_FILE:
+    #     if (
+    #         "basis functions"
+    #         or "Multiplicity"
+    #         or "Excited State"
+    #         or "->"
+    #         or "<-" in line
+    #     ):
+    #         FILE_CONTENT.append(line.replace("->", "-> ").replace("<-", "<- "))
+    # FILE_CONTENT = "".join(FILE_CONTENT)
+    FILE_CONTENT = MY_FILE.replace("->", "-> ").replace("<-", "<- ")
+    SCALE_FACTOR, MULTIPLICITY = is_closed_shell(FILE_CONTENT, ARGS)
     # formatierter_string = f"{ein_float:.2f}"
     print(
         (
@@ -499,6 +507,7 @@ if __name__ == "__main__":
         )
     )
     # num_basis_functions(FILE_CONTENT)
+    output = parse_text(FILE_CONTENT, ARGS)
     to_docx(
-        parse_text(FILE_CONTENT), SCALE_FACTOR, ARGS, num_basis_functions(FILE_CONTENT)
+        parse_text(FILE_CONTENT, ARGS), SCALE_FACTOR, ARGS, num_basis_functions(FILE_CONTENT, ARGS)
     )
